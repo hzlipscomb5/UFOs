@@ -37,3 +37,42 @@ function buildTable(data) {
   // Let's think of it this way: we're telling our code put each sighting onto its own row of data. The val argument represents each item in the object, such as the location, shape, or duration.
   // let cell = row.append("td") and rhe next row append each value of the object to a cell in the table
 
+
+// Start our click function
+
+function handleClick() {
+  // Grab the datetime value from the filter
+  let date = d3.select("#datetime").property("value");
+  let filteredData = tableData;
+
+   // Check to see if a date was entered and filter the
+  // data using that date.
+  if (date) {
+    // Apply `filter` to the table data to only keep the
+    // rows where the `datetime` value matches the filter value
+    filteredData = filteredData.filter(row => row.datetime === date);
+  }
+
+   // Rebuild the table using the filtered data
+  // @NOTE: If no date was entered, then filteredData will
+  // just be the original tableData.
+  buildTable(filteredData);
+}
+
+// Attach an event to listen for the form button
+d3.selectAll("#filter-btn").on("click", handleClick);
+
+// Build the table when the page loads
+buildTable(tableData);
+
+
+// d3.select("#datetime"), we're telling D3 to look for the #datetime id in the HTML tags. We haven't created our HTML yet, but we know that the date value will be nested within tags that have an id of "datetime."
+// Here's a variable we haven't seen in a while: tableData. This is the original data as imported from our data.js file. By setting the filteredData variable to our raw data, we're basically using it as a blank slate. The function we're working on right now will be run each time the filter button is clicked on the website. If no date has been entered as a filter, then all of the data will be returned instead.
+// // pseudocode practice
+// if (a date is entered) {
+//   Filter the default data to show only the date entered
+// };
+// We just created the filteredData variable. What are we doing with it in this line: filteredData = filteredData.filter(row => row.datetime === date);? applying a filter method that will match the datetime value to the filtered date value.
+//then we run the build table function on filtered data 
+
+// just under the function is the code for the click itself. Our selector string contains the id for another HTML tag. (We'll assign a unique id to a button element in the HTML called "filter-btn".) This time it'll be included in the button tags we create for our filter button. By adding this, we're linking our code directly to the filter button. Also, by adding .on("click", handleClick);, we're telling D3 to execute our handleClick() function when the button with an id of filter-btn is clicked.
